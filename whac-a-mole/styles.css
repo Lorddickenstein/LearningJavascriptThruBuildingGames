@@ -1,0 +1,26 @@
+.grid {
+    width: 606px;
+    height: 606px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.square {
+    height: 200px;
+    width: 200px;
+    border: solid black 1px;
+}
+
+.mole {
+    background-image: url("images/mole-tongue.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.mole-squashed {
+    background-image: url("images/mole-squashed.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
