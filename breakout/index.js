@@ -186,13 +186,6 @@ function checkForCollisions() {
         xDirection === -2) {
         changeDirection('reverse')
     }
-    //  else if (
-    //     ballCurrentPosition[0] >= currentPosition[0] + blockWidth &&
-    //     ballCurrentPosition[0] <= currentPosition[0] + blockWidth + ballDiameter &&
-    //     ballCurrentPosition[1] > currentPosition[1] &&
-    //     ballCurrentPosition[1] < currentPosition[1] + blockHeight) {
-    //     changeDirection('reverse')
-    // }
 
     // Check for wall collisions
     if (ballCurrentPosition[0] >= (boardWidth - ballDiameter)) {
