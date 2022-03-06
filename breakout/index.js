@@ -5,8 +5,9 @@ const blockHeight = 20
 const boardWidth = 560
 const boardHeight = 300
 const ballDiameter = 20
-let timerID
-let xDirection = -2
+
+let timerId
+let xDirection = 2
 let yDirection = 2
 let score = 0
 
@@ -31,7 +32,7 @@ class Block {
 
 // All blocks
 const blocks = []
-for (let i = 0; i < 3; i++){
+for (let i = 0; i < 5; i++){
     x = 10
     for (let j = 0; j < 5; j++){
         blocks.push(new Block(x, y))
@@ -119,19 +120,79 @@ function checkForCollisions() {
 
     // Check for block collisions
     for (let i = 0; i < blocks.length; i++){
+        let collision = false
         if (
             ballCurrentPosition[0] >= blocks[i].bottomLeft[0] && 
             ballCurrentPosition[0] <= blocks[i].bottomRight[0] && 
-            ballCurrentPosition[1] >= blocks[i].bottomLeft[1] - ballDiameter &&
-            ballCurrentPosition[1] <= blocks[i].topLeft[1]){
+            ballCurrentPosition[1] >= blocks[i].bottomLeft[1] - ballDiameter && 
+            ballCurrentPosition[1] <= blocks[i].bottomLeft[1]) {
             changeDirection('top')
+            collision = true
+        } else if (
+            ballCurrentPosition[0] >= blocks[i].bottomLeft[0] && 
+            ballCurrentPosition[0] <= blocks[i].bottomRight[0] && 
+            ballCurrentPosition[1] >= blocks[i].bottomLeft[1]&& 
+            ballCurrentPosition[1] <= blocks[i].topLeft[1]) {
+            changeDirection('bottom')
+            collision = true
+        } else if (
+            ballCurrentPosition[0] >= blocks[i].bottomLeft[0] - ballDiameter &&
+            ballCurrentPosition[0] <= blocks[i].bottomLeft[0] &&
+            ballCurrentPosition[1] >= blocks[i].bottomLeft[1] &&
+            ballCurrentPosition[1] <= blocks[i].topLeft[1]) {
+            changeDirection('right')
+            collision = true
+        } else if (
+            ballCurrentPosition[0] <= blocks[i].bottomRight[0] + ballDiameter &&
+            ballCurrentPosition[0] >= blocks[i].bottomRight[0] &&
+            ballCurrentPosition[1] >= blocks[i].bottomLeft[1] &&
+            ballCurrentPosition[1] <= blocks[i].topLeft[1]) {
+            changeDirection('left')
+            collision = true
+        }
+
+        if (collision) {
             const allBlocks = Array.from(document.querySelectorAll('.block'))
             allBlocks[i].classList.remove('block')
             blocks.splice(i, 1)
             score++
             scoreDisplay.innerHTML = score
         }
+
+        // Check for win
+        if (blocks.length === 0) {
+            stopActions(score + ' You win.')
+        }
     }
+
+    // Check for user collisions
+    if (
+        ballCurrentPosition[0] > currentPosition[0] &&
+        ballCurrentPosition[0] < currentPosition[0] + blockWidth &&
+        ballCurrentPosition[1] > currentPosition[1] &&
+        ballCurrentPosition[1] < currentPosition[1] + blockHeight) {
+        changeDirection('bottom')
+    }
+     else if (
+        ballCurrentPosition[0] < currentPosition[0] &&
+        ballCurrentPosition[0] > currentPosition[0] - ballDiameter &&
+        ballCurrentPosition[1] < currentPosition[1] + blockHeight &&
+        xDirection === 2) {
+        changeDirection('reverse')
+    } else if (
+        ballCurrentPosition[0] < currentPosition[0] + blockWidth &&
+        ballCurrentPosition[0] > currentPosition[0] + blockWidth - ballDiameter &&
+        ballCurrentPosition[1] < currentPosition[1] + blockHeight &&
+        xDirection === -2) {
+        changeDirection('reverse')
+    }
+    //  else if (
+    //     ballCurrentPosition[0] >= currentPosition[0] + blockWidth &&
+    //     ballCurrentPosition[0] <= currentPosition[0] + blockWidth + ballDiameter &&
+    //     ballCurrentPosition[1] > currentPosition[1] &&
+    //     ballCurrentPosition[1] < currentPosition[1] + blockHeight) {
+    //     changeDirection('reverse')
+    // }
 
     // Check for wall collisions
     if (ballCurrentPosition[0] >= (boardWidth - ballDiameter)) {
@@ -145,10 +206,7 @@ function checkForCollisions() {
         changeDirection('left')
     } else if (ballCurrentPosition[1] <= 0) {
         // Collided with the bottom wall
-        clearInterval(timerId)
-        scoreDisplay.innerHTML = 'You Lose'
-        document.removeEventListener('keydown', moveUser)
-        document.removeEventListener('mousemove', mouseUser)
+        stopActions('You lose.')
     }
 }
 
@@ -167,5 +225,17 @@ function changeDirection(wall) {
         case 'bottom':
             yDirection = 2
             break;
+        case 'reverse':
+            xDirection *= -1
+            yDirection *= -1
+            break;
     }
+}
+
+// Stop actions
+function stopActions(message) {
+    clearInterval(timerId)
+    scoreDisplay.innerHTML = message
+    document.removeEventListener('keydown', moveUser)
+    document.removeEventListener('mousemove', mouseUser)
 }
