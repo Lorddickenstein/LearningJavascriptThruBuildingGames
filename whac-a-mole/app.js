@@ -56,6 +56,9 @@ function countDown() {
 }
 
 start_btn.addEventListener('click', () => {
+    currentTime = 10
+    result = 0
+    score.textContent = result
     start_btn.disabled = true
     moveMole()
 })
