@@ -20,3 +20,8 @@
     background-color: blue;
     border-radius: 10px;
 }
+
+.winning-squares {
+    background-color: gold;
+    border-radius: 10px;
+}
