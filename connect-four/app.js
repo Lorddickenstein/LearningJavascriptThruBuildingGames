@@ -209,8 +209,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ) {
             // console.log(winningSquares)
             for (let i = 0; i < winningSquares.length; i++){
-                squares[winningSquares[i]].classList.remove('player-one')
-                squares[winningSquares[i]].classList.remove('player-two')
+                squares[winningSquares[i]].classList.remove(player)
                 squares[winningSquares[i]].classList.add('winning-squares')
             }
             
