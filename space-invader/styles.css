@@ -1,6 +1,4 @@
 .grid {
-    width: 300px;
-    height: 300px;
     border: solid black 1px;
     display: flex;
     flex-wrap: wrap;
@@ -25,5 +23,10 @@
 }
 
 .boom {
-    background-color: red;
+    background-color: red !important;
+    border-radius: 0px;
+}
+
+.power-up {
+    background-color: yellow;
 }
