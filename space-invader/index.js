@@ -2,8 +2,8 @@ const grid = document.querySelector('.grid')
 const resultDisplay = document.querySelector('#result')
 const powerLvlDisplay = document.querySelector('#power-level')
 
-let boardWidth = 15
-let boardHeight = 15
+let boardWidth = 30
+let boardHeight = 30
 let direction = 1
 let score = 0
 let currentShooterIdx = (boardHeight * boardWidth) - (Math.ceil(boardWidth / 2) + boardWidth)
